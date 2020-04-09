@@ -2,10 +2,10 @@ public class newSorting {
 
     /* Method that takes an array of integers and an integer size that represents the size of the
         array at or below which your algorithm should switch to QuickSort to sort your array. */
-    public static void newSorting(int[] nums, int size){
+    public void newSorting(int[] nums, int size){
         //base case
         if(nums.length <= size)
-            quickSort(nums);
+            quickSort(nums,0,nums.length-1); //first call from index 0 to the last index of the array
 
         //recursive case
         else{
@@ -26,32 +26,30 @@ public class newSorting {
     }
 
     /* helper method for the recursive case of newSorting: populate the left/right arrays */
-    private static void populate(int[] nums, int[] left, int[] right, int mid){
-        int last = nums.length-1;
-
+    private void populate(int[] nums, int[] left, int[] right, int mid){
         for(int i = 0; i < mid; i++){
             left[i] = nums[i];
-            System.out.print(left[i] + " ");
         }
 
         for(int i = 0; i < right.length; i++){
             right[i] = nums[mid++];
-            System.out.print(right[i] + " ");
         }
     }
 
     /* Sorts the divided array in nums */
-    private static void mergeSortedHalves(int[] nums, int[] left, int[] right){
+    private void mergeSortedHalves(int[] nums, int[] left, int[] right){
         int indexLeft = 0; //initial index of the left array
         int indexRight = 0; //initial index of the right array
         int indexNums = 0; //initial index of the complete array (nums)
 
         //compares the values between the elements of the right and left array
         while(indexLeft < left.length && indexRight < right.length){
+            // The current value in the left array is less than or equal to the one in the right array
             if(left[indexLeft] <= right[indexRight]){
                 nums[indexNums] = left[indexLeft];
                 indexLeft++;
             }
+            // The current value in the right array is less than the one in the left array
             else{
                 nums[indexNums] = right[indexRight];
                 indexRight++;
@@ -62,43 +60,50 @@ public class newSorting {
         //if the left array was not done
         while(indexLeft < left.length){
             nums[indexNums] = left[indexLeft];
+            indexLeft++;
+            indexNums++;
         }
 
         //If the right array was not done
         while(indexRight < right.length){
             nums[indexNums] = right[indexRight];
+            indexRight++;
+            indexNums++;
         }
     }
 
-    private static void quickSort(int[] nums){
-       if(nums.length < 2)
-           return;
+    /* quick sort method, makes the calls according to the correct partition */
+    private void quickSort(int[] nums, int start, int last){
+      if(start < last){
+          int position = partition(nums, start, last);
 
-       int i = partition(nums);
-       int[] left = new int[i];
-       int[] right = new int[i+1];
-
+          quickSort(nums, start, position-1);
+          quickSort(nums, position+1, last);
+      }
     }
 
-    /* helper method to populate the arrays for quicksort */
-    
+    /* Partition for quickSort, swaps values to keep them int the left/right of the pivot */
+    private int partition(int[] nums, int start, int last){
+        int pivot = nums[start]; // The pivot is the first element by default
+        int less = start; // Start index
+        int more = last; // Last index
 
-    /* Partition for quicksort, swaps values to keep them int the left/right of the pivot */
-    private static int partition(int[] nums){
-        int pivot = nums[0];
-        int less = 1;
-        int more = nums.length-1;
-
+        // While the the less(start) index is less than the more(last) index there are still elements to swap
+        // If the pointers cross then we have all values that are less and greater than the pivot separated
         while(less < more){
-            //
-            while(less < nums.length && nums[less] <= pivot){
+            //stops when a value is greater than the pivot to make the swap
+            while(less <= last && nums[less] <= pivot){
                 less++;
             }
 
-            while(more > 0 && nums[more] > pivot){
+            // Stops when a value is less than the pivot to make the swap
+            while(more >= start && nums[more] > pivot){
                 more--;
             }
 
+            // If the less and more variable are still in range then we swap the values
+            // The one in less is pointing to a value grater than the pivot
+            // The value more is pointing to a value less than the pivot
             if(less < more){
                 int temp = nums[less];
                 nums[less] = nums[more];
@@ -106,11 +111,12 @@ public class newSorting {
             }
         }
 
-        //swaps the pivot
+        // Swaps the pivot to its correct position once the loop is done
         int temp = pivot;
-        pivot = nums[more];
+        nums[start] = nums[more];
         nums[more] = temp;
 
+        // Returns the position of the pivot to make the next partitions
         return more;
     }
 }

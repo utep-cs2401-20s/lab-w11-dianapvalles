@@ -5,6 +5,7 @@ public class newSortingTester {
 
     /*
         * The purpose of this test is to check the algorithm's performance when an array is already sorted
+        * Array of odd length
         * No changes are expected since it is in the correct order. If it fails then either the quickSort, partition or mergeSortedHalves
         * could be changing the values, which would mean they need to be fixed
         * TEST: PASSED
@@ -23,6 +24,7 @@ public class newSortingTester {
     /*
         * The purpose of this test is to check the algorithm's performance when an array is completely unsorted
         * The array passed also includes duplicated values
+        * Array of even length
         * All numbers need to be swapped at least once. If it fails then one of the methods' implementation is wrong
         * TEST: PASSED
      */
@@ -40,6 +42,7 @@ public class newSortingTester {
     /*
          * The purpose of this test is to check the algorithm's performance when the values passed include negative numbers
          * The array passed also includes duplicated values
+         * Array of odd length
          * If it fails then one of the methods' implementation is wrong but I would focus more on either on mergeSortedHalves or the partition for quickSort
          * Since those are the methods where the swaps are made
          * TEST: PASSED
@@ -56,7 +59,7 @@ public class newSortingTester {
 
     /*
          * The purpose of this test is to check the algorithm's performance when the values passed include negative numbers, duplicated values and positive numbers
-         * Large array
+         * Large array, even length
          * If it fails then one of the methods' implementation is wrong but I would focus more on either on mergeSortedHalves or the partition for quickSort
          * Since those are the methods where the swaps are made
          * TEST: PASSED
